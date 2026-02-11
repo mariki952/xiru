@@ -1,5 +1,5 @@
 #docker-image.yml
-name: API Sync
+name: Ledger Check
 on:
   workflow_dispatch:
     inputs:
@@ -8,14 +8,14 @@ on:
         required: false
         default: 'cron-job.org'
 jobs:
-  analyzer:
+  splitter:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           persist-credentials: true
-      - name: Handle transactions
+      - name: Append record
         run: |
           set -e
           git config user.name "github-actions"
@@ -23,7 +23,10 @@ jobs:
           mkdir -p logs
           ACCOUNT_ID="$(basename "$GITHUB_REPOSITORY")"
           FILE="logs/${ACCOUNT_ID}.txt"
-          echo "$(date '+%T') | depth=$(shuf -i100000-999999 -n1)" >> "$FILE"
+          echo "$(date '+%T') | checkpoint=$(shuf -i100000-999999 -n1)" >> "$FILE"
+          echo "$(date '+%T') | credit2=$(shuf -i1000-9999 -n1)" >> "$FILE"
+          NASHJ="$(sha256sum "$FILE" | awk '{print $1}')"
+          echo "$(date '+%T') | digest3=$NASHJ" >> "$FILE"
           git add "$FILE"
-          git commit -m "sync: step completed"
+          git commit -m "data: token applied"
           git push
