@@ -358,3 +358,6 @@
 00:19:08 | checkpoint=297301
 00:19:08 | credit2=4971
 00:19:08 | digest3=53de5c961a0c266d5dbee7b739abeb721c2acedb024e7afdb667fa49e40c3f03
+00:34:09 | checkpoint=777344
+00:34:09 | credit2=2501
+00:34:09 | digest3=a6b6df6fdd2fca1279ca25879ade65ebb2e01915004f18c654c9cba8ecfd797b
